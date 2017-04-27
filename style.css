@@ -6,21 +6,21 @@
 }
 body
 {
-	color: white;
-	background-color: silver;
+	color: black;
+	background-color: white;
 }
 
 header
 {
 	min-height: 200px;
-	color: white;
+	color: black;
 	text-align: center;
-	background-image: url("images/spectre_reflet.jpg");
+	background-image: url("images/spectre_reflet_inverse.jpg");
 	background-size: 400px 200px;
 	background-attachment: fixed;
 	background-position: center top;
-	background-repeat: repeat;
-	background-color: black;
+	background-repeat: repeat-x;
+	background-color: white;
 	
 	display: flex;
 	flex-direction: column;
@@ -36,16 +36,17 @@ section
 	display:flex;
 	flex-direction: row;
 	flex-wrap: wrap;
+	justify-content: space-around;
 }
 nav
 {
-	color: white;
-	border: 2px solid white;
+	color: black;
+	border: 2px solid black;
 	border-radius: 10px;
 	margin: 10px;
 	padding: 10px;
 	text-align: center;
-	background-color: black;
+	background-color: white;
 }
 nav li
 {
@@ -53,7 +54,7 @@ nav li
 }
 nav li a
 {
-	color: white;
+	color: black;
 	text-decoration: none;
 }
 nav li a:hover
@@ -63,10 +64,20 @@ nav li a:hover
 }
 article
 {
-	color: red;
+	margin: 10px;
+	padding: 10 px;
+	max-width: 75%;
+	font-size: 1.8em;
+	text-align: justify;
+	background-color: white;
+	color: black;
 }
 
+.image_flottante
+{
+	float: left;
+}
 footer, footer p
 {
-	color: orange;
+	display: none;
 }
