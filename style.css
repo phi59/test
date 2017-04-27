@@ -39,7 +39,7 @@ section
 }
 nav
 {
-	color: red;
+	color: white;
 	border: 2px solid white;
 	border-radius: 10px;
 	margin: 10px;
@@ -53,13 +53,17 @@ nav li
 }
 nav li a
 {
-	color: red;
+	color: white;
 	text-decoration: none;
 }
 nav li a:hover
 {
 	color: silver;
 	text-decoration: underline;
+}
+article
+{
+	color: red;
 }
 
 footer, footer p
