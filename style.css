@@ -36,8 +36,14 @@ section
 	display:flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	justify-content: space-around;
+	justify-content: flex-start; /*space-around;*/
 }
+
+aside
+{
+	width: 300px;
+}
+
 nav
 {
 	color: black;
