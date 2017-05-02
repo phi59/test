@@ -79,6 +79,13 @@ article
 	color: black;
 }
 
+.non_reconnu
+{
+	color: red;
+	background-color: yellow;
+	font-size: 1em;
+}
+
 .image_flottante
 {
 	float: left;
