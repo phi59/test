@@ -1,4 +1,7 @@
 <?php
+/*
+	Page d'accueil
+*/
 	session_start();
 	include_once("fonctions.php");
 ?>

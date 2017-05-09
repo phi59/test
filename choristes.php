@@ -1,4 +1,12 @@
-<?php // inclusion du header commun
+<?php
+/*
+	Page de connexion pour les choristes.
+	S'il y a déjà eu connexion, les variables suivantes sont définies
+		$_SESSION['user']['id'] valeur de folie_membre.id sur la BdD
+		$_SESSION['user']['prenom'] valeur de folie_membre.prenom sur la BdD
+		$_SESSION['user']['admin'] qui vaut true pour un admin et false pour un membre classique
+	Dans le cas contraire, affichage d'un formulaire de connexion
+*/
 	session_start();
 	include_once("fonctions.php");
 ?>
@@ -6,23 +14,29 @@
 <?php
 
 $texte=''; // initialisation du texte à afficher
-if ( isset($_POST['mail_utilisateur']) && isset($_POST['password_utilisateur']) ) {		// si utilisateur ayant envoyé login et mot de passe
-	$password_a_tester=htmlspecialchars($_POST['password_utilisateur']);
-	if ($password_a_tester=="bbb") { 													// si mot de passe correct
-		$_SESSION['user']='philippe';													// alors utilisateur connecté
+if ( isset($_POST['mail_utilisateur']) && isset($_POST['password_utilisateur']) && !isset($_SESSION['user']) ) {	// si utilisateur ayant envoyé login et mot de passe sans être déjà connecté
+	$email=htmlspecialchars($_POST['mail_utilisateur']);
+	$password=htmlspecialchars($_POST['password_utilisateur']);
+	
+																		// Vérification que email+mot_de_passe correspond en BdD
+	$test_connexion=faire_requete(0,array('email' => $email , 'password'=> $password ));
+	if ($test_connexion['nb_ligne']==1) { 										// si (login+mot de passe) trouvé une seule fois en BdD
+		$_SESSION['user']['id']		=$test_connexion['valeur']['id'][0];			// folie_membre.id
+		$_SESSION['user']['prenom']	=$test_connexion['valeur']['prenom'][0];		// folie_membre.prenom
+		$_SESSION['user']['admin']	= ($test_connexion['valeur']['administrateur'][0]==1?true:false); // =true si l'utilisateur est un administrateur
 	} else {
-		$texte=$texte.'<p class="non_reconnu">login et/ou mot de passe non reconnu...</p>';
+		$texte.='<p class="non_reconnu">login et/ou mot de passe non reconnu...</p>';
 	}
+
+	
 }
 
 
 
 if ( isset($_SESSION['user']) ) {	// si utilisateur connecté => affichage espace choriste
-	$texte=	$texte.'
-			<p>Vous êtes connecté !!</p>
-			';
-} else {							// sinon (utilisateur non connecté) => formulaire de login !
-	$texte=$texte.'
+	$texte.='<p>Bravo '.$_SESSION['user']['prenom'].' vous êtes connecté !!</p>';
+} else {							// sinon (utilisateur non connecté) => affichage formulaire de login !
+	$texte.='
 			<form method="post" action="choristes.php">
 				<label for="mail_utilisateur">Votre email : </label>
 				<input type="email" name="mail_utilisateur" id="mail_utilisateur" size="15" maxlength="100" placeholder="a.a@gmail.com"/>

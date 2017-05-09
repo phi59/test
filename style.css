@@ -4,6 +4,7 @@
 	margin: 0px;
 	padding:0px;
 }
+
 body
 {
 	color: black;
@@ -26,6 +27,7 @@ header
 	flex-direction: column;
 	justify-content: center;
 }
+
 header h1
 {
 	font-size: 6em;
@@ -68,6 +70,8 @@ nav li a:hover
 	color: silver;
 	text-decoration: underline;
 }
+
+
 article
 {
 	margin: 10px;
@@ -78,6 +82,22 @@ article
 	background-color: white;
 	color: black;
 }
+
+
+table , td , th
+{
+	border-collapse: collapse;
+	border: 1px solid black;
+	caption-side: top;
+	text-align: left;
+	margin: 5px;
+	font-size: 0.8em;
+}
+th
+{
+	text-align: center;
+}
+
 
 .non_reconnu
 {
@@ -90,6 +110,7 @@ article
 {
 	float: left;
 }
+
 footer, footer p
 {
 	display: none;
