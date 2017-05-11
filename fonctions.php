@@ -36,6 +36,7 @@ function affiche_page($texte)
 										if ( isset($_SESSION['user']) ) {		// si le client est connecté
 											echo '<li><a href="annuaire.php"     title="Annuaire des choristes">Annuaire</a></li>';	// accès à l'annuaire
 											echo '<li><a href="deconnexion.php"  title="Se déconnecter">déconnexion</a></li>';		// accès à la déconnexion
+											echo '<li><a href="test.php"  title="a_tester">Pour test</a></li>';
 										}
 		echo '
 									</ul>
@@ -71,7 +72,7 @@ function connexion_bdd()
 			}
 	}
 
-function faire_requete($num_requete,$array_variables)
+function faire_requete_select($num_requete,$array_variables)
 /*
 	Fonction qui exécute une requete préparée (définie par son numéro $num_requete)
 	Le resultat est le tableau $tableau
@@ -85,7 +86,7 @@ function faire_requete($num_requete,$array_variables)
 		$reponse_requete = $bdd->prepare($requete[$num_requete]);
 		$reponse_requete->execute($array_variables);
 		$nb_ligne=0;
-		while ($donnees = $reponse_requete->fetch(PDO::FETCH_ASSOC)) // PDO::FETCH_ASSOC pour n'avoir que par association
+		while ($donnees = $reponse_requete->fetch(PDO::FETCH_ASSOC)) // PDO::FETCH_ASSOC pour n'avoir que par association et non par numéro
 				{
 					foreach ($donnees as $key => $value)
 						{ 
@@ -97,6 +98,50 @@ function faire_requete($num_requete,$array_variables)
 		$tableau['nb_ligne']=$nb_ligne;
 		
 		return $tableau;
+	}
+
+function faire_requete_non_select($num_requete,$array_variables)
+/*
+	Fonction qui exécute une requete préparée (définie par son numéro $num_requete) qui n'est pas un select
+	Il n'y a donc pas de valeur en sortie
+*/
+	{
+		$bdd=connexion_bdd();
+		include('requetes_preparees.php');
+		$reponse_requete = $bdd->prepare($requete[$num_requete]);
+		$reponse_requete->execute($array_variables);
+	}
+
+function verifier_donnee($donnee,$format)
+/*
+	Fonction qui vérifie que la variable $donnee est bien conforme au $format : true si OK, false sinon
+	Liste des formats vérifiés
+		$format='alpha' : que des lettres a-z, espace, -,aàâäéèêëîïöôùûüç en majuscule ou minuscule
+		$format='email' : [a-z0-9.-_]+@[a-z0-9.-_]+
+		$format='telephone' : 10 chiffres avec des espaces, -./_
+		$format='code_postal' : 5 chiffres
+		$format='alphanum' : que des lettres, chiffres, espace -,aàâäéèêëîïöôùûüç en majuscule ou minuscule
+*/
+	{
+		switch ($format) {
+			case 'alpha':
+				return preg_match('#^[a-z \-\'aàâäéèêëîïöôùûüç]+$#i',$donnee);
+				break;
+			case 'email':
+				return preg_match('#^[a-z0-9\-_.]+@[a-z0-9\-_.]+$#',$donnee);
+				break;
+			case 'telephone':
+				return preg_match('#^([ \-._/]*[0-9][ \-._/]*){10}$#',$donnee);
+				break;
+			case 'code_postal':
+				return preg_match('#^[0-9]{5}$#',$donnee);
+				break;
+			case 'alphanum':
+				return preg_match('#^[a-z0-9 \-\'aàâäéèêëîïöôùûüç]+$#i',$donnee);
+				break;
+			default:
+				return false;
+		}
 	}
 
  ?> 

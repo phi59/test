@@ -8,9 +8,9 @@ include_once("fonctions.php");
 $texte='';
 if (!isset($_SESSION['user'])) {
 	// non connecté... retour à l'accueil
-	$texte.='<p>Vous n\'êtes pas connecté.</p>';
+	header('Location: index.php');
 } else {
-	$liste_choriste=faire_requete(1,array('date_reference' => '2017-05-05' ));
+	$liste_choriste=faire_requete_select(1,array('date_reference' => '2017-05-05' ));
 
 	$texte.='<table>
 		<caption>Liste des choristes</caption>'; // légende du tableau

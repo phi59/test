@@ -15,7 +15,7 @@ $requete[0]='
 	FROM
 		folie_membre
 	WHERE 
-		email LIKE :email AND mot_de_passe LIKE :password ';
+		email LIKE :email AND mot_de_passe LIKE :password AND statut=4';
 
 // Requete 1
 //	Donne la liste des membres dont la date de sortie est supérieure à une date_reference
@@ -33,5 +33,39 @@ $requete[1]='
 		nom,prenom';
 
 // Requete 2
-// A venir
+// cherche s'il existe déjà un membre avec l'adresse mail en question
+// variable
+//		email : email que l'on souhaite tester
+// Requête appelée dans creation_compte.php
+$requete[2]='
+	SELECT
+		id
+	FROM
+		folie_membre
+	WHERE
+		email LIKE :email';
+
+// Requete 3
+// Insertion d'un futur nouveau membre (en attente de validation par l'administrateur)
+// variable
+//		'nom'
+//		'prenom'
+//		'email'
+//		'mdp_tempo'
+//		'telephone'
+//		'adresse_1'
+//		'adresse_2'
+//		'code_postal'
+//		'ville'
+// requete appelée dans creation_compte.php
+$requete[3]='
+	INSERT INTO
+		folie_membre
+	(nom, prenom, email, mdp_tempo, administrateur, telephone, adresse_1, adresse_2, code_postal, ville, statut)
+	VALUES
+		(:nom , :prenom, :email, :mdp_tempo, 0, :telephone, :adresse_1, :adresse_2, :code_postal, :ville, 1)';
+
+// Requete 4
+// A définir
+
 ?>

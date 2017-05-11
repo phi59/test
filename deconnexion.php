@@ -10,10 +10,6 @@
 
 <?php
 session_destroy();
-$texte=	'
-		<p>Déconnexion effectuée !!</p>
-		';
-
-affiche_page($texte);
+header('Location: index.php');
 
 ?>

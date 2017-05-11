@@ -17,9 +17,14 @@ $texte=''; // initialisation du texte à afficher
 if ( isset($_POST['mail_utilisateur']) && isset($_POST['password_utilisateur']) && !isset($_SESSION['user']) ) {	// si utilisateur ayant envoyé login et mot de passe sans être déjà connecté
 	$email=htmlspecialchars($_POST['mail_utilisateur']);
 	$password=htmlspecialchars($_POST['password_utilisateur']);
+	$password_hash=sha1('FP',$password);
 	
-																		// Vérification que email+mot_de_passe correspond en BdD
-	$test_connexion=faire_requete(0,array('email' => $email , 'password'=> $password ));
+	/*$texte.='<p>email='.$email.'</p>';
+	$texte.='<p>mdp='.$password.'</p>';
+	$texte.='<p>mdp_hash='.$password_hash.'</p>';*/
+	
+																		// Vérification que email+mot_de_passe (hachage sha1) correspond en BdD
+	$test_connexion=faire_requete_select(0,array('email' => $email , 'password'=> $password ));
 	if ($test_connexion['nb_ligne']==1) { 										// si (login+mot de passe) trouvé une seule fois en BdD
 		$_SESSION['user']['id']		=$test_connexion['valeur']['id'][0];			// folie_membre.id
 		$_SESSION['user']['prenom']	=$test_connexion['valeur']['prenom'][0];		// folie_membre.prenom
@@ -27,8 +32,6 @@ if ( isset($_POST['mail_utilisateur']) && isset($_POST['password_utilisateur']) 
 	} else {
 		$texte.='<p class="non_reconnu">login et/ou mot de passe non reconnu...</p>';
 	}
-
-	
 }
 
 
@@ -44,8 +47,10 @@ if ( isset($_SESSION['user']) ) {	// si utilisateur connecté => affichage espac
 				<label for="password_utilisateur">Votre mot de passe : </label>
 				<input type="password" name="password_utilisateur" id="password_utilisateur" size="15" maxlength="100" placeholder="aaa"/>
 				<br />
-				<input type="submit" value="OK"/> <! envoi des données>
+				<input type="submit" value="Se connecter"/>
 			</form>
+			<br />
+			<p>Vous êtes membre de la chorale et vous n\'avez pas de compte ? <br/>Cliquez <a href="creation_compte.php" title="Demande d\'accès">ici</a> pour en faire la demande</p>
 			';
 }
 	
